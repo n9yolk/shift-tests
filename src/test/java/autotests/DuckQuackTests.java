@@ -18,23 +18,7 @@ public class DuckQuackTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void quackOdd(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
-        runner.$(action -> {
-            if(Integer.parseInt(action.getVariable("duckId")) % 2 == 0){
-                createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-
-                http().client("http://localhost:2222")
-                        .receive()
-                        .response(HttpStatus.OK)
-                        .message()
-                        .extract(fromBody().expression("$.id", "duckId"));
-            }
-        });
+        checkId(runner, 0, "yellow", 0.15, "rubber", "quack", "FIXED");
 
         duckQuack(runner, "${duckId}", "2", "3");
         validateResponse(runner, "{\n" + "  \"sound\": \"quack-quack-quack, quack-quack-quack\"," + "}"
@@ -45,26 +29,18 @@ public class DuckQuackTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void quackEven(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
-        runner.$(action -> {
-            if(Integer.parseInt(action.getVariable("duckId")) % 2 != 0){
-                createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-
-                http().client("http://localhost:2222")
-                        .receive()
-                        .response(HttpStatus.OK)
-                        .message()
-                        .extract(fromBody().expression("$.id", "duckId"));
-            }
-        });
+        checkId(runner, 1, "yellow", 0.15, "rubber", "quack", "FIXED");
         duckQuack(runner, "${duckId}", "2", "3");
         validateResponse(runner, "{\n" + "  \"sound\": \"quack-quack-quack, quack-quack-quack\"," + "}"
         );
+    }
+
+    public void checkId(TestCaseRunner runner, int coef, String color, double height, String material, String sound, String wingsState){
+        runner.$(action -> {
+            if(Integer.parseInt(action.getVariable("duckId")) % 2 == coef){
+                createDuck(runner, color, height, material, sound, wingsState);
+            }
+        });
     }
 
     public void duckQuack(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
@@ -97,6 +73,11 @@ public class DuckQuackTests extends TestNGCitrusSpringSupport{
                         + "  \"sound\": \"" + sound + "\",\n"
                         + "  \"wingsState\": \"" + wingsState
                         + "\"\n" + "}"));
+        runner.$(http().client("http://localhost:2222")
+                .receive()
+                .response(HttpStatus.OK)
+                .message()
+                .extract(fromBody().expression("$.id", "duckId")));
     }
 }
 

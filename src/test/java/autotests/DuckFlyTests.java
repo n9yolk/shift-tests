@@ -32,14 +32,8 @@ public class DuckFlyTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void flyFixed(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
         duckFly(runner, "${duckId}");
-        validateResponse(runner, "{\n" + "  \"message\": \"I can not fly :C\"\n" + "}"
+        validateResponse(runner, "{\n" + "  \"message\": \"I can't fly\"\n" + "}"
         );
     }
 
@@ -47,12 +41,6 @@ public class DuckFlyTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void flyUndefined(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "UNDEFINED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
         duckFly(runner, "${duckId}");
         validateResponse(runner, "{\n" + "  \"message\": \"Wings are not detected :(\"\n" + "}"
         );
@@ -86,5 +74,10 @@ public class DuckFlyTests extends TestNGCitrusSpringSupport{
                         + "  \"sound\": \"" + sound + "\",\n"
                         + "  \"wingsState\": \"" + wingsState
                         + "\"\n" + "}"));
+        runner.$(http().client("http://localhost:2222")
+                .receive()
+                .response(HttpStatus.OK)
+                .message()
+                .extract(fromBody().expression("$.id", "duckId")));
     }
 }

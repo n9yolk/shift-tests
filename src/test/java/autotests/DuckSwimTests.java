@@ -18,12 +18,6 @@ public class DuckSwimTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void swimExist(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
         duckSwim(runner, "${duckId}");
         validateResponse(runner, HttpStatus.OK, "{\n" + "  \"message\": \"I’m swimming\"\n" + "}"
         );
@@ -33,12 +27,6 @@ public class DuckSwimTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void swimNotExist(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
         duckSwim(runner, "-1");
         validateResponse(runner, HttpStatus.valueOf(400), "{\n" + "  \"message\": \"Paws are not found ((((\"\n" + "}"
         );
@@ -72,5 +60,10 @@ public class DuckSwimTests extends TestNGCitrusSpringSupport{
                         + "  \"sound\": \"" + sound + "\",\n"
                         + "  \"wingsState\": \"" + wingsState
                         + "\"\n" + "}"));
+        runner.$(http().client("http://localhost:2222")
+                .receive()
+                .response(HttpStatus.OK)
+                .message()
+                .extract(fromBody().expression("$.id", "duckId")));
     }
 }

@@ -19,33 +19,9 @@ public class DuckPropertiesTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void properRubber(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
-        runner.$(action -> {
-            if(Integer.parseInt(action.getVariable("duckId")) % 2 == 0){
-                createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-
-                http().client("http://localhost:2222")
-                        .receive()
-                        .response(HttpStatus.OK)
-                        .message()
-                        .extract(fromBody().expression("$.id", "duckId"));
-            }
-        });
-
+        checkId(runner, 0,"yellow", 0.15, "rubber", "quack", "FIXED");
         duckProp(runner, "${duckId}");
-        validateResponse(runner, "{\n" +
-                "  \"color\": \"yellow\"," +
-                "  \"height\": 0.15," +
-                "  \"material\": \"rubber\"," +
-                "  \"sound\": \"quack\"," +
-                "  \"wingsState\": \"FIXED\""
-                + "}"
-        );
+        validateResponse(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
     }
 
     @Test(description = "ID - целое четное число (0, 9223372036854775807)\n" +
@@ -53,34 +29,18 @@ public class DuckPropertiesTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void properWood(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
-        runner.$(action -> {
-            if(Integer.parseInt(action.getVariable("duckId")) % 2 != 0){
-                createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
-
-                http().client("http://localhost:2222")
-                        .receive()
-                        .response(HttpStatus.OK)
-                        .message()
-                        .extract(fromBody().expression("$.id", "duckId"));
-            }
-        });
+        checkId(runner, 1,"yellow", 0.15, "wood", "quack", "FIXED");
         duckProp(runner, "${duckId}");
-        validateResponse(runner, "{\n" +
-                "  \"color\": \"yellow\"," +
-                "  \"height\": 0.15," +
-                "  \"material\": \"wood\"," +
-                "  \"sound\": \"quack\"," +
-                "  \"wingsState\": \"FIXED\""
-                + "}"
-        );
+        validateResponse(runner, "yellow", 0.15, "wood", "quack", "FIXED");
     }
 
+    public void checkId(TestCaseRunner runner, int coef, String color, double height, String material, String sound, String wingsState){
+        runner.$(action -> {
+            if(Integer.parseInt(action.getVariable("duckId")) % 2 == coef){
+                createDuck(runner, color, height, material, sound, wingsState);
+            }
+        });
+    }
     public void duckProp(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -88,12 +48,20 @@ public class DuckPropertiesTests extends TestNGCitrusSpringSupport{
                 .queryParam("id", id));
     }
 
-    public void validateResponse(TestCaseRunner runner, String responseMessage) {
+    public void validateResponse(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
         runner.$(http().client("http://localhost:2222")
                 .receive()
                 .response(HttpStatus.OK)
                 .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE).body(responseMessage));
+                .contentType(MediaType.APPLICATION_JSON_VALUE).body(
+                        "{\n" +
+                                "  \"color\": \"" + color + "\",\n"
+                                + "  \"height\": " + height + ",\n"
+                                + "  \"material\": \"" + material + "\",\n"
+                                + "  \"sound\": \"" + sound + "\",\n"
+                                + "  \"wingsState\": \"" + wingsState
+                                + "\"\n" + "}")
+        );
     }
 
 
@@ -109,5 +77,10 @@ public class DuckPropertiesTests extends TestNGCitrusSpringSupport{
                         + "  \"sound\": \"" + sound + "\",\n"
                         + "  \"wingsState\": \"" + wingsState
                         + "\"\n" + "}"));
+        runner.$(http().client("http://localhost:2222")
+                .receive()
+                .response(HttpStatus.OK)
+                .message()
+                .extract(fromBody().expression("$.id", "duckId")));
     }
 }

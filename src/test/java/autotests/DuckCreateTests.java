@@ -18,40 +18,31 @@ public class DuckCreateTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void properRubber(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-
-        validateResponse(runner, "{\n" +
-                "  \"id\": \"@ignore@\"," +
-                "  \"color\": \"yellow\"," +
-                "  \"height\": 0.15," +
-                "  \"material\": \"rubber\"," +
-                "  \"sound\": \"quack\"," +
-                "  \"wingsState\": \"FIXED\""
-                + "}"
-        );
+        validateResponse(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
     }
 
     @Test(description = "Утка с material = wood", priority = 2)
     @CitrusTest
     public void properWood(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
-
-        validateResponse(runner, "{\n" +
-                "  \"id\": \"@ignore@\"," +
-                "  \"color\": \"yellow\"," +
-                "  \"height\": 0.15," +
-                "  \"material\": \"wood\"," +
-                "  \"sound\": \"quack\"," +
-                "  \"wingsState\": \"FIXED\""
-                + "}"
-        );
+        validateResponse(runner, "yellow", 0.15, "wood", "quack", "FIXED");
     }
 
-    public void validateResponse(TestCaseRunner runner, String responseMessage) {
+    public void validateResponse(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
         runner.$(http().client("http://localhost:2222")
                 .receive()
                 .response(HttpStatus.OK)
                 .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE).body(responseMessage));
+                .contentType(MediaType.APPLICATION_JSON_VALUE).body(
+                        "{\n" + "  \"id\": \"@ignore@\","
+                                + "  \"color\": \"" + color + "\",\n"
+                                + "  \"height\": " + height + ",\n"
+                                + "  \"material\": \"" + material + "\",\n"
+                                + "  \"sound\": \"" + sound + "\",\n"
+                                + "  \"wingsState\": \"" + wingsState
+                                + "\"\n" + "}"
+                )
+        );
     }
 
 

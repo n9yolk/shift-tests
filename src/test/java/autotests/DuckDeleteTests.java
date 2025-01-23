@@ -18,12 +18,6 @@ public class DuckDeleteTests extends TestNGCitrusSpringSupport{
     @CitrusTest
     public void deleteDuck(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-        runner.$(http().client("http://localhost:2222")
-                .receive()
-                .response(HttpStatus.OK)
-                .message()
-                .extract(fromBody().expression("$.id", "duckId")));
-
         duckDelete(runner, "${duckId}");
         validateResponse(runner, "{\n" + "  \"message\": \"Duck is deleted\"" + "\n}");
     }
@@ -56,5 +50,10 @@ public class DuckDeleteTests extends TestNGCitrusSpringSupport{
                         + "  \"sound\": \"" + sound + "\",\n"
                         + "  \"wingsState\": \"" + wingsState
                         + "\"\n" + "}"));
+        runner.$(http().client("http://localhost:2222")
+                .receive()
+                .response(HttpStatus.OK)
+                .message()
+                .extract(fromBody().expression("$.id", "duckId")));
     }
 }
