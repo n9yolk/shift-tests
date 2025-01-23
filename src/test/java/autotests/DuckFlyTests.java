@@ -24,7 +24,7 @@ public class DuckFlyTests extends TestNGCitrusSpringSupport{
                 .extract(fromBody().expression("$.id", "duckId")));
 
         duckFly(runner, "${duckId}");
-        validateResponse(runner, "{\n" + "  \"message\": \"I am flying :)\"\n" + "}"
+        validateResponse(runner, "{\n" + "  \"message\": \"I'm flying\"\n" + "}"
         );
     }
 
