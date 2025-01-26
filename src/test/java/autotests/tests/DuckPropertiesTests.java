@@ -18,7 +18,7 @@ public class DuckPropertiesTests extends DuckActionsClient {
         getId(runner);
         checkId(runner, 0,"yellow", 0.15, "rubber", "quack", "FIXED");
         duckProperties(runner, "${duckId}");
-        validateResponse(runner, "bodyArgs", HttpStatus.OK,"yellow", 0.15, "rubber", "quack", "FIXED");
+        validateResponse(runner, HttpStatus.OK,"yellow", 0.15, "rubber", "quack", "FIXED");
     }
 
     @Test(description = "ID - целое четное число (0, 9223372036854775807)\n" +
@@ -29,6 +29,6 @@ public class DuckPropertiesTests extends DuckActionsClient {
         getId(runner);
         checkId(runner, 1,"yellow", 0.15, "wood", "quack", "FIXED");
         duckProperties(runner, "${duckId}");
-        validateResponse(runner,"bodyArgs", HttpStatus.OK, "yellow", 0.15, "wood", "quack", "FIXED");
+        validateResponse(runner, HttpStatus.OK, "yellow", 0.15, "wood", "quack", "FIXED");
     }
 }

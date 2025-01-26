@@ -16,9 +16,9 @@ public class DuckUpdateTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
         getId(runner);
         duckUpdate(runner, "${duckId}", "black", "2", "rubber", "quack");
-        validateResponse(runner, "{\n" + "  \"message\": \"Duck with id = ${duckId} is updated\"" + "\n}", HttpStatus.OK,"",null,"","","");
+        validateResponse(runner, "{\n" + "  \"message\": \"Duck with id = ${duckId} is updated\"" + "\n}", HttpStatus.OK);
         duckProperties(runner, "${duckId}");
-        validateResponse(runner, "bodyArgs", HttpStatus.OK,"black", 2., "rubber", "quack", "FIXED");
+        validateResponse(runner, HttpStatus.OK, "@ignore@","black", 2., "rubber", "quack", "FIXED");
     }
 
     @Test(description = "Изменить цвет и звук уточки")
@@ -27,8 +27,8 @@ public class DuckUpdateTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
         getId(runner);
         duckUpdate(runner, "${duckId}", "green", "0.15", "rubber", "meow");
-        validateResponse(runner, "{\n" + "  \"message\": \"Duck with id = ${duckId} is updated\"" + "\n}", HttpStatus.OK,"",null,"","","");
+        validateResponse(runner, "{\n" + "  \"message\": \"Duck with id = ${duckId} is updated\"" + "\n}", HttpStatus.OK);
         duckProperties(runner, "${duckId}");
-        validateResponse(runner, "bodyArgs", HttpStatus.OK,"green", 0.15, "rubber", "meow", "FIXED");
+        validateResponse(runner, HttpStatus.OK, "@ignore@","green", 0.15, "rubber", "meow", "FIXED");
     }
 }

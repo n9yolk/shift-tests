@@ -14,13 +14,13 @@ public class DuckCreateTests extends DuckActionsClient {
     @CitrusTest
     public void properRubber(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
-        validateResponse(runner, "create", HttpStatus.OK, "yellow",0.15, "rubber", "quack", "FIXED");
+        validateResponse(runner, HttpStatus.OK, "@ignore@", "yellow",0.15, "rubber", "quack", "FIXED");
     }
 
     @Test(description = "Утка с material = wood")
     @CitrusTest
     public void properWood(@Optional @CitrusResource TestCaseRunner runner) {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
-        validateResponse(runner, "create", HttpStatus.OK,"yellow", 0.15, "wood", "quack", "FIXED");
+        validateResponse(runner, HttpStatus.OK, "@ignore@","yellow", 0.15, "wood", "quack", "FIXED");
     }
 }

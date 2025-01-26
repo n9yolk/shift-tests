@@ -16,7 +16,7 @@ public class DuckFlyTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "ACTIVE");
         getId(runner);
         duckFly(runner, "${duckId}");
-        validateResponse(runner, "{\n" + "  \"message\": \"I'm flying\"\n" + "}", HttpStatus.OK, "",null,"","","");
+        validateResponse(runner, "{\n" + "  \"message\": \"I'm flying\"\n" + "}", HttpStatus.OK);
     }
 
     @Test(description = "Существующий id со связанными крыльями")
@@ -25,7 +25,7 @@ public class DuckFlyTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
         getId(runner);
         duckFly(runner, "${duckId}");
-        validateResponse(runner, "{\n" + "  \"message\": \"I can't fly\"\n" + "}", HttpStatus.OK, "",null,"","","");
+        validateResponse(runner, "{\n" + "  \"message\": \"I can't fly\"\n" + "}", HttpStatus.OK);
     }
 
     @Test(description = "Существующий id с крыльями в неопределенном состоянии", priority = 3)
@@ -34,6 +34,6 @@ public class DuckFlyTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "UNDEFINED");
         getId(runner);
         duckFly(runner, "${duckId}");
-        validateResponse(runner, "{\n" + "  \"message\": \"Wings are not detected :(\"\n" + "}", HttpStatus.OK, "",null,"","","");
+        validateResponse(runner, "{\n" + "  \"message\": \"Wings are not detected :(\"\n" + "}", HttpStatus.OK);
     }
 }

@@ -17,7 +17,7 @@ public class DuckSwimTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
         getId(runner);
         duckSwim(runner, "${duckId}");
-        validateResponse(runner,  "{\n" + "  \"message\": \"I’m swimming\"\n" + "}", HttpStatus.OK, "",null,"","","");
+        validateResponse(runner,  "{\n" + "  \"message\": \"I’m swimming\"\n" + "}", HttpStatus.OK);
     }
 
     @Test(description = "Несуществующий id")
@@ -26,6 +26,6 @@ public class DuckSwimTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "wood", "quack", "FIXED");
         getId(runner);
         duckSwim(runner, "-1");
-        validateResponse(runner,  "{\n" + "  \"message\": \"Paws are not found ((((\"\n" + "}", HttpStatus.valueOf(400), "",null,"","","");
+        validateResponse(runner,  "{\n" + "  \"message\": \"Paws are not found ((((\"\n" + "}", HttpStatus.BAD_REQUEST);
     }
 }

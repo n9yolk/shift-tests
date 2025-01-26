@@ -17,6 +17,21 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     @Autowired
     protected HttpClient duckService;
 
+    public void createDuck(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
+        runner.$(http().client(duckService)
+                .send()
+                .post("/api/duck/create")
+                .message()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body("{\n" + "  \"color\": \"" + color + "\",\n"
+                        + "  \"height\": " + height + ",\n"
+                        + "  \"material\": \"" + material + "\",\n"
+                        + "  \"sound\": \"" + sound + "\",\n"
+                        + "  \"wingsState\": \"" + wingsState
+                        + "\"\n" + "}")
+        );
+    }
+
     public void duckUpdate(TestCaseRunner runner, String id, String color, String height, String material, String sound) {
         runner.$(http().client(duckService)
                 .send()
@@ -26,6 +41,13 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
                 .queryParam("id", id)
                 .queryParam("material", material)
                 .queryParam("sound", sound));
+    }
+
+    public void duckDelete(TestCaseRunner runner, String id) {
+        runner.$(http().client(duckService)
+                .send()
+                .delete("/api/duck/delete")
+                .queryParam("id", id));
     }
 
     public void duckProperties(TestCaseRunner runner, String id) {
@@ -58,55 +80,45 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
                 .queryParam("id", id));
     }
 
-    public void duckDelete(TestCaseRunner runner, String id) {
+    public void validateResponse(TestCaseRunner runner, HttpStatus status, String color, Double height, String material, String sound, String wingsState) {
         runner.$(http().client(duckService)
-                .send()
-                .delete("/api/duck/delete")
-                .queryParam("id", id));
+                .receive()
+                .response(status)
+                .message()
+                .contentType(MediaType.APPLICATION_JSON_VALUE).body(
+                        "{\n" +
+                                "  \"color\": \"" + color + "\",\n"
+                                + "  \"height\": " + height + ",\n"
+                                + "  \"material\": \"" + material + "\",\n"
+                                + "  \"sound\": \"" + sound + "\",\n"
+                                + "  \"wingsState\": \"" + wingsState
+                                + "\"\n" + "}")
+        );
     }
 
-    public void validateResponse(TestCaseRunner runner, String typeOfResponse, HttpStatus status, String color, Double height, String material, String sound, String wingsState) {
-        switch (typeOfResponse){
-            case "bodyArgs":
+    public void validateResponse(TestCaseRunner runner, String message, HttpStatus status) {
+        runner.$(http().client(duckService)
+                .receive()
+                .response(HttpStatus.OK)
+                .message()
+                .contentType(MediaType.APPLICATION_JSON_VALUE).body(message)
+        );
+    }
+
+    public void validateResponse(TestCaseRunner runner, HttpStatus status, String id, String color, Double height, String material, String sound, String wingsState) {
                 runner.$(http().client(duckService)
                         .receive()
                         .response(status)
                         .message()
                         .contentType(MediaType.APPLICATION_JSON_VALUE).body(
-                                "{\n" +
-                                        "  \"color\": \"" + color + "\",\n"
+                                "{\n" + "  \"id\": \"" + id + "\","
+                                        + "  \"color\": \"" + color + "\",\n"
                                         + "  \"height\": " + height + ",\n"
                                         + "  \"material\": \"" + material + "\",\n"
                                         + "  \"sound\": \"" + sound + "\",\n"
                                         + "  \"wingsState\": \"" + wingsState
                                         + "\"\n" + "}")
                 );
-                break;
-            case "create":
-                runner.$(http().client(duckService)
-                        .receive()
-                        .response(status)
-                        .message()
-                        .contentType(MediaType.APPLICATION_JSON_VALUE).body(
-                                "{\n" + "  \"id\": \"@ignore@\","
-                                        + "  \"color\": \"" + color + "\",\n"
-                                        + "  \"height\": " + height + ",\n"
-                                        + "  \"material\": \"" + material + "\",\n"
-                                        + "  \"sound\": \"" + sound + "\",\n"
-                                        + "  \"wingsState\": \"" + wingsState
-                                        + "\"\n" + "}"
-                        )
-                );
-                break;
-            default:
-                runner.$(http().client(duckService)
-                        .receive()
-                        .response(HttpStatus.OK)
-                        .message()
-                        .contentType(MediaType.APPLICATION_JSON_VALUE).body(typeOfResponse)
-                );
-                break;
-        }
     }
 
     public void checkId(TestCaseRunner runner, int coef, String color, Double height, String material, String sound, String wingsState){
@@ -118,20 +130,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         });
     }
 
-    public void createDuck(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
-        runner.$(http().client(duckService)
-                .send()
-                .post("/api/duck/create")
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body("{\n" + "  \"color\": \"" + color + "\",\n"
-                        + "  \"height\": " + height + ",\n"
-                        + "  \"material\": \"" + material + "\",\n"
-                        + "  \"sound\": \"" + sound + "\",\n"
-                        + "  \"wingsState\": \"" + wingsState
-                        + "\"\n" + "}")
-        );
-    }
+
     public void getId(TestCaseRunner runner){
         runner.$(http().client(duckService)
                 .receive()

@@ -15,6 +15,6 @@ public class DuckDeleteTests extends DuckActionsClient {
         createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
         getId(runner);
         duckDelete(runner, "${duckId}");
-        validateResponse(runner, "{\n" + "  \"message\": \"Duck is deleted\"" + "\n}", HttpStatus.OK, "",null,"","","");
+        validateResponse(runner, "{\n" + "  \"message\": \"Duck is deleted\"" + "\n}", HttpStatus.OK);
     }
 }

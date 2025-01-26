@@ -17,7 +17,7 @@ public class DuckQuackTests extends DuckActionsClient {
         getId(runner);
         checkId(runner, 0, "yellow", 0.15, "rubber", "quack", "FIXED");
         duckQuack(runner, "${duckId}", "2", "3");
-        validateResponse(runner, "{\n" + "  \"sound\": \"quack-quack-quack, quack-quack-quack\"," + "}", HttpStatus.OK, "",null,"","","");
+        validateResponse(runner, "{\n" + "  \"sound\": \"quack-quack-quack, quack-quack-quack\"," + "}", HttpStatus.OK);
     }
 
     @Test(description = "Корректный чётный id , корректный звук")
@@ -27,7 +27,7 @@ public class DuckQuackTests extends DuckActionsClient {
         getId(runner);
         checkId(runner, 1, "yellow", 0.15, "rubber", "quack", "FIXED");
         duckQuack(runner, "${duckId}", "2", "3");
-        validateResponse(runner, "{\n" + "  \"sound\": \"quack-quack-quack, quack-quack-quack\"," + "}", HttpStatus.OK, "",null,"","","");
+        validateResponse(runner, "{\n" + "  \"sound\": \"quack-quack-quack, quack-quack-quack\"," + "}", HttpStatus.OK);
     }
 }
 
