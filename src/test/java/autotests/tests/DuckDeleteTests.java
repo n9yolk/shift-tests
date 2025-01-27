@@ -13,7 +13,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
 public class DuckDeleteTests extends DuckActionsClient {
-    @Test(description = "Удалить существующую утку")
+    @Test(description = "Удалить существующую утку; validation with string;")
     @CitrusTest
     public void deleteDuck1(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -22,7 +22,7 @@ public class DuckDeleteTests extends DuckActionsClient {
         duckDelete(runner, "${duckId}");
         validateResponse(runner, "{\n" + "  \"message\": \"Duck is deleted\"" + "\n}", HttpStatus.OK);
     }
-    @Test(description = "Удалить существующую утку")
+    @Test(description = "Удалить существующую утку; validation with resources;")
     @CitrusTest
     public void deleteDuck2(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -31,7 +31,7 @@ public class DuckDeleteTests extends DuckActionsClient {
         duckDelete(runner, "${duckId}");
         validateResponse(runner, HttpStatus.OK, "Duck/DuckDeleteTests/DuckDeleteTests.json");
     }
-    @Test(description = "Удалить существующую утку")
+    @Test(description = "Удалить существующую утку; validation with payloads;")
     @CitrusTest
     public void deleteDuck3(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);

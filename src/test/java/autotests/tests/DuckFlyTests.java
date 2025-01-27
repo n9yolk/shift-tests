@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 
 public class DuckFlyTests extends DuckActionsClient {
-    @Test(description = "Существующий id с активными крыльями")
+    @Test(description = "Существующий id с активными крыльями; validation with string;")
     @CitrusTest
     public void flyActive1(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
@@ -23,7 +23,7 @@ public class DuckFlyTests extends DuckActionsClient {
         duckFly(runner, "${duckId}");
         validateResponse(runner, "{\n" + "  \"message\": \"I'm flying\"\n" + "}", HttpStatus.OK);
     }
-    @Test(description = "Существующий id с активными крыльями")
+    @Test(description = "Существующий id с активными крыльями; validation with resources;")
     @CitrusTest
     public void flyActive2(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
@@ -32,7 +32,7 @@ public class DuckFlyTests extends DuckActionsClient {
         duckFly(runner, "${duckId}");
         validateResponse(runner, HttpStatus.OK, "Duck/DuckFlyTests/DuckFlyTest.json");
     }
-    @Test(description = "Существующий id с активными крыльями")
+    @Test(description = "Существующий id с активными крыльями; validation with payloads;")
     @CitrusTest
     public void flyActive3(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);

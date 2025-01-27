@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 public class DuckPropertiesTests extends DuckActionsClient {
     @Test(description = "ID - целое нечетное число (0, 9223372036854775807)\n" +
-                        "Есть в БД (утка с material = rubber)")
+                        "Есть в БД (утка с material = rubber); validation with string;")
     @CitrusTest
     public void properRubber1(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -24,7 +24,7 @@ public class DuckPropertiesTests extends DuckActionsClient {
         validateResponse(runner, HttpStatus.OK,"yellow", 0.15, "rubber", "quack", "FIXED");
     }
     @Test(description = "ID - целое нечетное число (0, 9223372036854775807)\n" +
-            "Есть в БД (утка с material = rubber)")
+            "Есть в БД (утка с material = rubber); validation with resources;")
     @CitrusTest
     public void properRubber2(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -35,7 +35,7 @@ public class DuckPropertiesTests extends DuckActionsClient {
         validateResponse(runner, HttpStatus.OK,"Duck/Ducks/RubberDuckProperties.json");
     }
     @Test(description = "ID - целое нечетное число (0, 9223372036854775807)\n" +
-            "Есть в БД (утка с material = rubber)")
+            "Есть в БД (утка с material = rubber); validation with payloads;")
     @CitrusTest
     public void properRubber3(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);

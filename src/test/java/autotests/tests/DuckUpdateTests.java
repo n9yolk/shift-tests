@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 
 public class DuckUpdateTests extends DuckActionsClient {
-    @Test(description = "Изменить цвет и высоту уточки")
+    @Test(description = "Изменить цвет и высоту уточки; validation with string;")
     @CitrusTest
     public void updateColorHeight1(@Optional @CitrusResource TestCaseRunner runner) {
         Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -26,7 +26,7 @@ public class DuckUpdateTests extends DuckActionsClient {
         duckProperties(runner, "${duckId}");
         validateResponse(runner, HttpStatus.OK,"black", 2., "rubber", "quack", "FIXED");
     }
-    @Test(description = "Изменить цвет и высоту уточки")
+    @Test(description = "Изменить цвет и высоту уточки; validation with resources;")
     @CitrusTest
     public void updateColorHeight2(@Optional @CitrusResource TestCaseRunner runner) {
         Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -38,7 +38,7 @@ public class DuckUpdateTests extends DuckActionsClient {
         duckProperties(runner, "${duckId}");
         validateResponse(runner, HttpStatus.OK, "Duck/DuckUpdateTests/UpdateColorHeight.json");
     }
-    @Test(description = "Изменить цвет и высоту уточки")
+    @Test(description = "Изменить цвет и высоту уточки; validation with payloads;")
     @CitrusTest
     public void updateColorHeight3(@Optional @CitrusResource TestCaseRunner runner) {
         Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);

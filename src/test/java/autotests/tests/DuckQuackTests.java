@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 
 public class DuckQuackTests extends DuckActionsClient {
-    @Test(description = "Корректный нечётный id, корректный звук")
+    @Test(description = "Корректный нечётный id, корректный звук; validation with string;")
     @CitrusTest
     public void quackOdd1(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -21,7 +21,7 @@ public class DuckQuackTests extends DuckActionsClient {
         duckQuack(runner, "${duckId}", "2", "3");
         validateResponse(runner, "{\n" + "  \"sound\": \"quack-quack-quack, quack-quack-quack\"" + "}", HttpStatus.OK);
     }
-    @Test(description = "Корректный нечётный id, корректный звук")
+    @Test(description = "Корректный нечётный id, корректный звук; validation with resources;")
     @CitrusTest
     public void quackOdd2(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
@@ -31,7 +31,7 @@ public class DuckQuackTests extends DuckActionsClient {
         duckQuack(runner, "${duckId}", "2", "3");
         validateResponse(runner, HttpStatus.OK, "Duck/DuckQuackTests/DuckQuackTests.json");
     }
-    @Test(description = "Корректный нечётный id, корректный звук")
+    @Test(description = "Корректный нечётный id, корректный звук; validation with payloads;")
     @CitrusTest
     public void quackOdd3(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);

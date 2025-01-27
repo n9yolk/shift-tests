@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 public class DuckSwimTests extends DuckActionsClient {
 
-    @Test(description = "Существующий id")
+    @Test(description = "Существующий id; validation with string;")
     @CitrusTest
     public void swimExist1(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.FIXED);
@@ -24,7 +24,7 @@ public class DuckSwimTests extends DuckActionsClient {
         duckSwim(runner, "${duckId}");
         validateResponse(runner,  "{\n" + "  \"message\": \"I’m swimming\"\n" + "}", HttpStatus.OK);
     }
-    @Test(description = "Существующий id")
+    @Test(description = "Существующий id; validation with resources;")
     @CitrusTest
     public void swimExist2(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.FIXED);
@@ -33,7 +33,7 @@ public class DuckSwimTests extends DuckActionsClient {
         duckSwim(runner, "${duckId}");
         validateResponse(runner,   HttpStatus.OK, "Duck/DuckSwimTests/DuckGoodSwimTest.json");
     }
-    @Test(description = "Существующий id")
+    @Test(description = "Существующий id; validation with payloads;")
     @CitrusTest
     public void swimExist3(@Optional @CitrusResource TestCaseRunner runner) {
         DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.FIXED);
