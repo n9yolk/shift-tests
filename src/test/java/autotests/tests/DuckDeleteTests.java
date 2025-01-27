@@ -1,6 +1,10 @@
 package autotests.tests;
 
 import autotests.clients.DuckActionsClient;
+import autotests.payloads.DuckProperties;
+import autotests.payloads.Message;
+import autotests.payloads.Messages;
+import autotests.payloads.WingState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -11,10 +15,30 @@ import org.testng.annotations.Test;
 public class DuckDeleteTests extends DuckActionsClient {
     @Test(description = "Удалить существующую утку")
     @CitrusTest
-    public void deleteDuck(@Optional @CitrusResource TestCaseRunner runner) {
-        createDuck(runner, "yellow", 0.15, "rubber", "quack", "FIXED");
+    public void deleteDuck1(@Optional @CitrusResource TestCaseRunner runner) {
+        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        createDuck(runner, duck);
         getId(runner);
         duckDelete(runner, "${duckId}");
         validateResponse(runner, "{\n" + "  \"message\": \"Duck is deleted\"" + "\n}", HttpStatus.OK);
+    }
+    @Test(description = "Удалить существующую утку")
+    @CitrusTest
+    public void deleteDuck2(@Optional @CitrusResource TestCaseRunner runner) {
+        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        createDuck(runner, duck);
+        getId(runner);
+        duckDelete(runner, "${duckId}");
+        validateResponse(runner, HttpStatus.OK, "Duck/DuckDeleteTests/DuckDeleteTests.json");
+    }
+    @Test(description = "Удалить существующую утку")
+    @CitrusTest
+    public void deleteDuck3(@Optional @CitrusResource TestCaseRunner runner) {
+        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        createDuck(runner, duck);
+        getId(runner);
+        duckDelete(runner, "${duckId}");
+        Message message = new Message().message(Messages.DELETE);
+        validateResponse(runner, HttpStatus.OK, message);
     }
 }

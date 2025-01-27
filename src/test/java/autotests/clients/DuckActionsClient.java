@@ -1,10 +1,14 @@
 package autotests.clients;
 
 import autotests.EndpointConfig;
+import autotests.payloads.Duck;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.http.client.HttpClient;
+import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
 import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,30 +21,25 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     @Autowired
     protected HttpClient duckService;
 
-    public void createDuck(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
+    public void createDuck(TestCaseRunner runner, Object body) {
         runner.$(http().client(duckService)
                 .send()
                 .post("/api/duck/create")
                 .message()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body("{\n" + "  \"color\": \"" + color + "\",\n"
-                        + "  \"height\": " + height + ",\n"
-                        + "  \"material\": \"" + material + "\",\n"
-                        + "  \"sound\": \"" + sound + "\",\n"
-                        + "  \"wingsState\": \"" + wingsState
-                        + "\"\n" + "}")
+                .body(new ObjectMappingPayloadBuilder(body, new ObjectMapper()))
         );
     }
 
-    public void duckUpdate(TestCaseRunner runner, String id, String color, String height, String material, String sound) {
+    public void duckUpdate(TestCaseRunner runner, Duck duck) {
         runner.$(http().client(duckService)
                 .send()
                 .put("/api/duck/update")
-                .queryParam("color", color)
-                .queryParam("height", height)
-                .queryParam("id", id)
-                .queryParam("material", material)
-                .queryParam("sound", sound));
+                .queryParam("color", duck.color())
+                .queryParam("height", String.valueOf(duck.height()))
+                .queryParam("id", duck.id())
+                .queryParam("material", duck.material())
+                .queryParam("sound", duck.sound()));
     }
 
     public void duckDelete(TestCaseRunner runner, String id) {
@@ -94,12 +93,25 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
                                 + "  \"wingsState\": \"" + wingsState
                                 + "\"\n" + "}")
         );
+    }    public void validateResponse(TestCaseRunner runner, HttpStatus status, String expectedPayload) {
+        runner.$(http().client(duckService)
+                .receive()
+                .response(status)
+                .message()
+                .contentType(MediaType.APPLICATION_JSON_VALUE).body(new ClassPathResource(expectedPayload))
+        );
+    }    public void validateResponse(TestCaseRunner runner, HttpStatus status, Object expectedPayload) {
+        runner.$(http().client(duckService)
+                .receive()
+                .response(status)
+                .message()
+                .contentType(MediaType.APPLICATION_JSON_VALUE).body(new ObjectMappingPayloadBuilder(expectedPayload, new ObjectMapper())));
     }
 
     public void validateResponse(TestCaseRunner runner, String message, HttpStatus status) {
         runner.$(http().client(duckService)
                 .receive()
-                .response(HttpStatus.OK)
+                .response(status)
                 .message()
                 .contentType(MediaType.APPLICATION_JSON_VALUE).body(message)
         );
@@ -121,10 +133,10 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
                 );
     }
 
-    public void checkId(TestCaseRunner runner, int coef, String color, Double height, String material, String sound, String wingsState){
+    public void checkId(TestCaseRunner runner, int coef, Object body){
         runner.$(action -> {
             if(Integer.parseInt(action.getVariable("duckId")) % 2 == coef){
-                createDuck(runner, color, height, material, sound, wingsState);
+                createDuck(runner, body);
                 getId(runner);
             }
         });
