@@ -1,9 +1,9 @@
 package autotests.tests;
 
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.DuckProperties;
 import autotests.payloads.Message;
 import autotests.payloads.Messages;
+import autotests.payloads.Duck;
 import autotests.payloads.WingState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
@@ -17,7 +17,7 @@ public class DuckFlyTests extends DuckActionsClient {
     @Test(description = "Существующий id с активными крыльями; validation with string;")
     @CitrusTest
     public void flyActive1(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
+        Duck duck = new Duck().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
         createDuck(runner, duck);
         getId(runner);
         duckFly(runner, "${duckId}");
@@ -26,7 +26,7 @@ public class DuckFlyTests extends DuckActionsClient {
     @Test(description = "Существующий id с активными крыльями; validation with resources;")
     @CitrusTest
     public void flyActive2(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
+        Duck duck = new Duck().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
         createDuck(runner, duck);
         getId(runner);
         duckFly(runner, "${duckId}");
@@ -35,7 +35,7 @@ public class DuckFlyTests extends DuckActionsClient {
     @Test(description = "Существующий id с активными крыльями; validation with payloads;")
     @CitrusTest
     public void flyActive3(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
+        Duck duck = new Duck().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.ACTIVE);
         createDuck(runner, duck);
         getId(runner);
         duckFly(runner, "${duckId}");
@@ -46,7 +46,7 @@ public class DuckFlyTests extends DuckActionsClient {
     @Test(description = "Существующий id со связанными крыльями")
     @CitrusTest
     public void flyFixed(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         duckFly(runner, "${duckId}");
@@ -56,10 +56,10 @@ public class DuckFlyTests extends DuckActionsClient {
     @Test(description = "Существующий id с крыльями в неопределенном состоянии", priority = 3)
     @CitrusTest
     public void flyUndefined(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.UNDEFINED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.UNDEFINED);
         createDuck(runner, duck);
         getId(runner);
         duckFly(runner, "${duckId}");
-        validateResponse(runner, "{\n" + "  \"message\": \"Wings are not detected :(\"\n" + "}", HttpStatus.OK);
+        validateResponse(runner, "{\n" + "  \"message\": \"Wings are not detected\"\n" + "}", HttpStatus.OK);
     }
 }

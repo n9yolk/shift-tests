@@ -3,7 +3,6 @@ package autotests.tests;
 import autotests.clients.DuckActionsClient;
 import autotests.payloads.CustomMessage;
 import autotests.payloads.Duck;
-import autotests.payloads.DuckProperties;
 import autotests.payloads.WingState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
@@ -49,7 +48,7 @@ public class DuckUpdateTests extends DuckActionsClient {
         CustomMessage message = new CustomMessage().message("Duck with id = ${duckId} is updated");
         validateResponse(runner, HttpStatus.OK, message);
         duckProperties(runner, "${duckId}");
-        DuckProperties checkDuck = new DuckProperties().color(duck.color()).height(duck.height()).material(duck.material()).sound(duck.sound()).wingsState(duck.wingsState());
+        Duck checkDuck = new Duck().color(duck.color()).height(duck.height()).material(duck.material()).sound(duck.sound()).wingsState(duck.wingsState());
         validateResponse(runner, HttpStatus.OK, checkDuck);
     }
 

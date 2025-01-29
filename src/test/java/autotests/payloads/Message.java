@@ -9,10 +9,11 @@ import lombok.experimental.Accessors;
 public class Message {
 
     @Setter
+    @JsonProperty("message")
     private Messages message;
 
     @JsonProperty("message")
     public String getMessage(){
-        return this.message.getFullMessage();
+        return this.message.getMessage();
     }
 }

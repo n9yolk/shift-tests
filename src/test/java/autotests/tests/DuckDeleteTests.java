@@ -1,7 +1,7 @@
 package autotests.tests;
 
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.DuckProperties;
+import autotests.payloads.Duck;
 import autotests.payloads.Message;
 import autotests.payloads.Messages;
 import autotests.payloads.WingState;
@@ -16,7 +16,7 @@ public class DuckDeleteTests extends DuckActionsClient {
     @Test(description = "Удалить существующую утку; validation with string;")
     @CitrusTest
     public void deleteDuck1(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         duckDelete(runner, "${duckId}");
@@ -25,7 +25,7 @@ public class DuckDeleteTests extends DuckActionsClient {
     @Test(description = "Удалить существующую утку; validation with resources;")
     @CitrusTest
     public void deleteDuck2(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         duckDelete(runner, "${duckId}");
@@ -34,7 +34,7 @@ public class DuckDeleteTests extends DuckActionsClient {
     @Test(description = "Удалить существующую утку; validation with payloads;")
     @CitrusTest
     public void deleteDuck3(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         duckDelete(runner, "${duckId}");

@@ -14,7 +14,7 @@ public class DuckQuackTests extends DuckActionsClient {
     @Test(description = "Корректный нечётный id, корректный звук; validation with string;")
     @CitrusTest
     public void quackOdd1(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         checkId(runner, 0, duck);
@@ -24,7 +24,7 @@ public class DuckQuackTests extends DuckActionsClient {
     @Test(description = "Корректный нечётный id, корректный звук; validation with resources;")
     @CitrusTest
     public void quackOdd2(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         checkId(runner, 0, duck);
@@ -34,7 +34,7 @@ public class DuckQuackTests extends DuckActionsClient {
     @Test(description = "Корректный нечётный id, корректный звук; validation with payloads;")
     @CitrusTest
     public void quackOdd3(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         checkId(runner, 0, duck);
@@ -46,7 +46,7 @@ public class DuckQuackTests extends DuckActionsClient {
     @Test(description = "Корректный чётный id , корректный звук")
     @CitrusTest
     public void quackEven(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         getId(runner);
         checkId(runner, 1, duck);

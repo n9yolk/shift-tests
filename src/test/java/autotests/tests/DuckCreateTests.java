@@ -1,7 +1,6 @@
 package autotests.tests;
 
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.DuckProperties;
 import autotests.payloads.Duck;
 import autotests.payloads.WingState;
 import com.consol.citrus.TestCaseRunner;
@@ -16,14 +15,14 @@ public class DuckCreateTests extends DuckActionsClient {
     @Test(description = "Утка с material = rubber; validation with string;")
     @CitrusTest
     public void properRubber1(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         validateResponse(runner, HttpStatus.OK, "@ignore@", "yellow",0.15, "rubber", "quack", "FIXED");
     }
     @Test(description = "Утка с material = rubber; validation with resources;")
     @CitrusTest
     public void properRubber2(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         validateResponse(runner, HttpStatus.OK, "Duck/Ducks/RubberDuck.json");
     }
@@ -38,7 +37,7 @@ public class DuckCreateTests extends DuckActionsClient {
     @Test(description = "Утка с material = wood")
     @CitrusTest
     public void properWood(@Optional @CitrusResource TestCaseRunner runner) {
-        DuckProperties duck = new DuckProperties().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.FIXED);
+        Duck duck = new Duck().color("yellow").height(0.15).material("wood").sound("quack").wingsState(WingState.FIXED);
         createDuck(runner, duck);
         validateResponse(runner, HttpStatus.OK, "@ignore@","yellow", 0.15, "wood", "quack", "FIXED");
     }
