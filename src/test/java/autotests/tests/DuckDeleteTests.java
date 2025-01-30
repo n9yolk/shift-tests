@@ -8,17 +8,21 @@ import autotests.payloads.WingState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Тесты на duck-controller")
+@Feature("Эндпоинт /api/duck/delete")
 public class DuckDeleteTests extends DuckActionsClient {
     @Test(description = "Удалить существующую утку; validation with string;")
     @CitrusTest
     public void deleteDuck1(@Optional @CitrusResource TestCaseRunner runner) {
         Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
-        createDuck(runner, duck);
-        getId(runner);
+        createDuckDB(runner, duck);
+        getIdDB(runner);
         duckDelete(runner, "${duckId}");
         validateResponse(runner, "{\n" + "  \"message\": \"Duck is deleted\"" + "\n}", HttpStatus.OK);
     }
@@ -26,8 +30,8 @@ public class DuckDeleteTests extends DuckActionsClient {
     @CitrusTest
     public void deleteDuck2(@Optional @CitrusResource TestCaseRunner runner) {
         Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
-        createDuck(runner, duck);
-        getId(runner);
+        createDuckDB(runner, duck);
+        getIdDB(runner);
         duckDelete(runner, "${duckId}");
         validateResponse(runner, HttpStatus.OK, "Duck/DuckDeleteTests/DuckDeleteTests.json");
     }
@@ -35,8 +39,8 @@ public class DuckDeleteTests extends DuckActionsClient {
     @CitrusTest
     public void deleteDuck3(@Optional @CitrusResource TestCaseRunner runner) {
         Duck duck = new Duck().color("yellow").height(0.15).material("rubber").sound("quack").wingsState(WingState.FIXED);
-        createDuck(runner, duck);
-        getId(runner);
+        createDuckDB(runner, duck);
+        getIdDB(runner);
         duckDelete(runner, "${duckId}");
         Message message = new Message().message(Messages.DELETE);
         validateResponse(runner, HttpStatus.OK, message);
